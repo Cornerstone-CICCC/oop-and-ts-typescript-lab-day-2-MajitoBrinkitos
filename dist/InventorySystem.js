@@ -10,14 +10,34 @@
 class InventoryManager {
     products = [];
     addProduct(product) {
+        this.products.push(product);
+        return `${product.name} added successfully to the Inventory.`;
     }
     updateProduct(id, update) {
+        const product = this.products.find(p => p.id === id);
+        if (product) {
+            Object.assign(product, update);
+            return `Product ${id} for ${product.name} updated successfully.`;
+        }
+        else {
+            return `Product ${id} not found.`;
+        }
     }
     getProduct(id) {
+        return this.products.find(p => p.id === id);
     }
     getAllProducts() {
+        return this.products;
     }
     removeProduct(id) {
+        const index = this.products.findIndex(p => p.id === id);
+        if (index !== -1) {
+            this.products.splice(index, 1);
+            return `Product ${id} has been removed successfully!`;
+        }
+        else {
+            return `Product not found.`;
+        }
     }
 }
 // Test cases
