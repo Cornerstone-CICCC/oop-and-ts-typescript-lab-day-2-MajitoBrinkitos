@@ -9,26 +9,39 @@
 // 6. Implement a method `updateItem` that updates an item by its property value.
 
 class MyStorage<T, U> {
-  items = []
+  items :T[] = []
 
-  addItem(item) {
-
+  addItem(item: T): string {
+    this.items.push(item);
+    return `${item} added to storage.`
   }
 
-  getItems() {
-
+  getItems() :T[]{
+    return this.items;
   }
 
-  removeItem(id) {
-
+  removeItem(item: T): string {
+    const index = this.items.indexOf(item);
+    if(index !== -1){
+      this.items.splice(index, 1);
+      return `Product ${item} has been removed`;
+    } else {
+      return `Product not found`;
+    }
   }
 
-  findItem(prop, val) {
-
+  findItem<K extends keyof T>(prop:K , val: any): T | undefined {
+    return this.items.find(item => item[prop] === val);
   }
 
-  updateItem(prop, id, update) {
-
+  updateItem<K extends keyof T>(prop: K, val: any, update: Partial<T>): string {
+    const item = this.items.find(i => i[prop] === val);
+    if(item){
+      Object.assign(this.items, update);
+      return `Item with ${prop}: ${val} updated`;
+    } else {
+      return  `Item with ${prop}: ${val} not found`;
+    }
   }
 }
 

@@ -10,14 +10,34 @@
 class MyStorage {
     items = [];
     addItem(item) {
+        this.items.push(item);
+        return `${item} added to storage.`;
     }
     getItems() {
+        return this.items;
     }
-    removeItem(id) {
+    removeItem(item) {
+        const index = this.items.indexOf(item);
+        if (index !== -1) {
+            this.items.splice(index, 1);
+            return `Product ${item} has been removed`;
+        }
+        else {
+            return `Product not found`;
+        }
     }
     findItem(prop, val) {
+        return this.items.find(item => item[prop] === val);
     }
-    updateItem(prop, id, update) {
+    updateItem(prop, val, update) {
+        const item = this.items.find(i => i[prop] === val);
+        if (item) {
+            Object.assign(this.items, update);
+            return `Item with ${prop}: ${val} updated`;
+        }
+        else {
+            return `Item with ${prop}: ${val} not found`;
+        }
     }
 }
 // Test cases
