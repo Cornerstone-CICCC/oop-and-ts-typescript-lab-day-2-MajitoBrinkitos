@@ -18,14 +18,41 @@ var Category;
 class ShoppingCart {
     cart = [];
     addToCart(product) {
+        const existingProduct = this.cart.find(p => p.id === product.id);
+        if (existingProduct) {
+            existingProduct.quantity += product.quantity;
+            return `${product.name} quantity updated to ${existingProduct.quantity}.`;
+        }
+        else {
+            this.cart.push(product);
+            return `${product.name} added to cart.`;
+        }
     }
     updateQuantity(id, qty) {
+        const product = this.cart.find(q => q.id === id);
+        if (product) {
+            product.quantity = qty;
+            return `Updated quantity of ${product.name} to ${qty}.`;
+        }
+        else {
+            return `Product not found.`;
+        }
     }
     getTotalPrice() {
+        return this.cart.reduce((total, product) => total + product.price * product.quantity, 0);
     }
     getProductsOfCategory(category) {
+        return this.cart.filter(p => p.category === category);
     }
     removeFromCart(id) {
+        const index = this.cart.findIndex(p => p.id === id);
+        if (index !== -1) {
+            this.cart.splice(index, 2);
+            return `Product with id: ${id} removed`;
+        }
+        else {
+            return `Product not found.`;
+        }
     }
 }
 // Test cases
